@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="style2.css">
+      <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <title></title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+      class Quote extends React.Component{
+
+        changeQuote = event => {
+          const input = event.target
+          this.setState({ word: input.value })
+        }
+
+        handleClick = e => {
+          this.props.nextQuestion()
+        }
+
+        render(){
+          return(
+            <React.Fragment>
+              <h1 className ='whoSays'> Who said?</h1>
+              <h1 className='quote'>{this.props.quote.quote}</h1>
+              <button className="ans" onClick={ this.handleClick }>{this.props.quote.ans1}</button>
+              <button className="ans" onClick={ this.handleClick }>{this.props.quote.ans2}</button>
+              <button className="ans" onClick={ this.handleClick }>{this.props.quote.ans3}</button>
+            </React.Fragment>
+          )
+        }
+      }
+
+      class Questionnaire extends React.Component {
+        state = {
+          quotes: [
+                    {quote: '"Nobody respects women more than me"', ans1:'President Donald J. Trump', ans2: 'R.Kelly', ans3: 'Henry The 8th'},
+                    {quote: '"Why can\'t we use nuclear weapons?""', ans1: 'Alexander Putin', ans2: 'Supreme Leader Ayatollah Ali Khamenei  ', ans3: 'President Donald J. Trump'},
+                    {quote: '"We won with the poorly educated.  I love the poorly educated"', ans1: 'Betsy DeVos', ans2: 'President Donald J. Trump', ans3: 'Governor George Wallace'},
+                    {quote: '"I know more about ISIS than the generals do, believe me"', ans1: 'President Donald J. Trump', ans2: 'Kim Jong-un', ans3: 'Shimon Peres'},
+                    {quote: '"The concept of global warming was created by and for the Chinese in order to make U.S. manufacturing non-competitive"', ans1: 'Rush Limbaugh', ans2: 'Donald J. Trump', ans3: 'Sarah Palin'}
+                  ],
+          questionNum: 0
+
+        }
+
+        nextQuestion = () =>{
+          this.setState({ questionNum: this.state.questionNum + 1 })
+        }
+
+        render(){
+          return(
+            <React.Fragment>
+              {
+                this.state.quotes[this.state.questionNum] ?
+                  <Quote quote={this.state.quotes[this.state.questionNum]} nextQuestion={this.nextQuestion} /> :
+                    "You've answered all the questions"
+              }
+            </React.Fragment>
+          )
+        }
+
+      }
+
+
+      ReactDOM.render(<Questionnaire />, document.getElementById('root'))
+    </script>
+
+  </body>
+</html>
